@@ -44,7 +44,7 @@ const RESULT_TIME = 2500;
 const prompts = [
   { text: "Raise your left hand", action: "leftHandUp" },
   { text: "Raise your right hand", action: "rightHandUp" },
-  { text: "Raise both hands", action: "bothHandsUp" }
+  { text: "Raise both hands", action: "bothHandsUp" },
 ];
 
 function preload() {
@@ -175,7 +175,8 @@ function drawSkeleton() {
     poses.length === 0 ||
     video.elt.videoWidth === 0 ||
     video.elt.videoHeight === 0
-  ) return;
+  )
+    return;
 
   let pose = poses[0];
 
@@ -254,20 +255,20 @@ function drawFeedback() {
     fill(120, 255, 160);
     textAlign(CENTER, TOP);
     textSize(36);
-    text("COMPLIANCE DETECTED", width / 2, 60);
+    text("SIMON IS PLEASED", width / 2, 60);
 
     fill(255);
     textSize(16);
-    text("The system recognized the requested pose.", width / 2, 140);
+    text("Simon recognized the requested pose.", width / 2, 140);
   } else {
     fill(255, 130, 130);
     textAlign(CENTER, TOP);
     textSize(36);
-    text("NON-COMPLIANCE DETECTED", width / 2, 60);
+    text("FAILURE TO COMPLY TO SIMON", width / 2, 60);
 
     fill(255);
     textSize(16);
-    text("The system did not recognize the requested pose.", width / 2, 140);
+    text("Simon did not recognize the requested pose.", width / 2, 140);
   }
 
   fill(255);
