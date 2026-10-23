@@ -12,15 +12,32 @@ let stateStartTime = 0;
 
 // Stays true after the requested gesture is first detected during a prompt.
 let actionDetected = false;
+let answerCorrect = false;
 
 const WAIT_TIME = 1500;
 const PROMPT_TIME = 4000;
 const RESULT_TIME = 2500;
 
 const prompts = [
-  { text: "Raise your left hand", action: "leftHandUp" },
-  { text: "Raise your right hand", action: "rightHandUp" },
-  { text: "Raise both hands", action: "bothHandsUp" },
+  {
+    text: "SIMON says raise your left hand",
+    action: "leftHandUp",
+    simonSays: true,
+  },
+  {
+    text: "SIMON says raise your right hand",
+    action: "rightHandUp",
+    simonSays: true,
+  },
+  {
+    text: "SIMON says raise both hands",
+    action: "bothHandsUp",
+    simonSays: true,
+  },
+
+  { text: "Raise your left hand", action: "leftHandUp", simonSays: false },
+  { text: "Raise your right hand", action: "rightHandUp", simonSays: false },
+  { text: "Raise both hands", action: "bothHandsUp", simonSays: false },
 ];
 
 function preload() {
@@ -74,6 +91,7 @@ function updateStateMachine() {
 
     if (elapsed > PROMPT_TIME) {
       // Move to feedback when the action window ends.
+      answerCorrect = currentPrompt.simonSays === actionDetected;
       currentState = "RESULT";
       stateStartTime = millis();
     }
@@ -227,12 +245,13 @@ function drawFeedback() {
   fill(0, 190);
   rect(20, 20, width - 40, 220, 14);
 
-  if (actionDetected) {
+  if (answerCorrect) {
     fill(120, 255, 160);
     textAlign(CENTER, TOP);
     textSize(36);
     text("SIMON IS PLEASED", width / 2, 60);
-
+    textSize(18);
+    text("SIMON WILL REMEMBER THAT", width / 2, 110);
     fill(255);
     textSize(16);
     text("Simon recognized the requested pose.", width / 2, 140);
@@ -241,6 +260,8 @@ function drawFeedback() {
     textAlign(CENTER, TOP);
     textSize(36);
     text("FAILURE TO COMPLY TO SIMON", width / 2, 60);
+    textSize(18);
+    text("SIMON WILL REMEMBER THAT", width / 2, 110);
 
     fill(255);
     textSize(16);
